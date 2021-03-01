@@ -139,7 +139,7 @@ void TM1637Display::clear()
 void TM1637Display::showNumberDec(long num, bool leading_zero, uint8_t length, uint8_t pos)
 {
   if (length==0) length = m_noDigits;
-  showNumberDecEx(num, 0, leading_zero, length, pos);
+  showNumberDecEx(num, 0, leading_zero, length, pos + 3);
 }
 
 void TM1637Display::showNumberDecEx(long num, uint8_t dots, bool leading_zero,
@@ -171,7 +171,7 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint32_t num, uint8_t dots, bo
 
   if (num == 0 && !leading_zero) {
     // Singular case - take care separately
-    for(uint8_t i = 0; i < (length-1); i++)
+    for(uint8_t i = length-1; i >= 0; i--)
       digits[i] = 0;
     digits[length-1] = encodeDigit(0);
   }
@@ -183,7 +183,7 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint32_t num, uint8_t dots, bo
     //  i--;
     //}
 
-    for(int i = length-1; i >= 0; --i)
+    for(int i = 0; i < length; ++i)
     {
       uint8_t digit = num % base;
 
